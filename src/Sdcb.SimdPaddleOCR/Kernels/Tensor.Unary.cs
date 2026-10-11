@@ -199,7 +199,7 @@ internal static partial class SimdKernels
                     ErfVectorAdvSimd(Vector128.Load(inputPtr + i)).Store(outputPtr + i);
             }
         }
-        else if (PackedSimd.IsSupported)
+        else if (PackedSimdEnabled)
         {
             fixed (float* inputPtr = input, outputPtr = output)
             {

@@ -559,7 +559,7 @@ internal static partial class SimdKernels
                 }
             }
         }
-        else if (PackedSimd.IsSupported)
+        else if (PackedSimdEnabled)
         {
             fixed (float* inputPtr = input, outputPtr = output)
             {

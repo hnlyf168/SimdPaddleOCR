@@ -11,6 +11,14 @@ namespace Sdcb.SimdPaddleOCR.Kernels;
 // keeping results bit-identical to the Vector fallback.
 internal static partial class SimdKernels
 {
+    /// <summary>
+    /// Gate for every PackedSimd dispatch branch. <c>PPOCR_PACKEDSIMD=0</c>
+    /// forces the <see cref="System.Numerics.Vector{T}"/> fallback in the same
+    /// build, so the browser can A/B both paths element for element.
+    /// </summary>
+    internal static readonly bool PackedSimdEnabled =
+        PackedSimd.IsSupported && Environment.GetEnvironmentVariable("PPOCR_PACKEDSIMD") != "0";
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Vector128<float> PackedMulAdd(Vector128<float> x, Vector128<float> y, Vector128<float> z) =>
         PackedSimd.Add(PackedSimd.Multiply(x, y), z);

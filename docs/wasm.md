@@ -36,11 +36,11 @@ CPU 内核派发顺序为 **AVX-512 → AVX2 → AdvSIMD → PackedSimd → `Vec
 | small | 474.6 ms | 411.3 ms | **1.15×** | 100 张完全一致 |
 | medium | 1,654.6 ms | 1,360.4 ms | **1.22×** | 100 张完全一致 |
 
-PackedSimd 内核与 `Vector<float>` 路径逐 lane 保持相同的运算顺序（无 FMA，乘加分离），因此识别结果逐位一致。主要收益来源：
+PackedSimd 内核与 `Vector<float>` 路径逐 lane 保持相同的运算顺序（无 FMA，乘加分离），因此在有限输入下结果逐位一致（ReLU / HardSwish 用的 `PseudoMax` / `PseudoMin` 遇到 NaN 时返回 0，而 `Vector.Max` 会传播 NaN）。同一构建里设置 `PPOCR_PACKEDSIMD=0` 即可强制走 `Vector<float>` 路径做浏览器内 A/B（WasmBench：`--env PPOCR_PACKEDSIMD=0`）。主要收益来源：
 
-* **寄存器分块重排**：V8 在 x64 上最多只给 v128 分配 15 个 XMM 寄存器，原 6×16（`Vector<float>`/4 时为 16 个累加器）分块会在内层循环溢出。PackedSimd 的 NHWC pointwise / dense 卷积与 MatMul 改为 4 像素 × 8 输出通道（8 个累加器），单核微基准 **1.4~1.9×**。
+* **寄存器分块重排**：V8 在 x64 上最多只给 v128 分配 15 个 XMM 寄存器，原分块会在内层循环溢出：NHWC 卷积在 `Vector<float>.Count == 4` 时是 6 行 × 8 通道分两次（12 个累加器），packed MatMul 是 4 行 × 16 列（16 个累加器）。PackedSimd 的 NHWC pointwise / dense 卷积与 MatMul 改为 4 像素 × 8 输出通道（8 个累加器），单核微基准 **1.4~1.9×**。
 * **Dense 卷积预计算 k 偏移表**：去掉内层循环里的 tap/通道簿记，3×3 dense 卷积 **1.5~1.9×**。
-* **MatMul + ArgMax（CTC 头）**：原 `Vector<float>` 实现把累加器放在 `stackalloc` 数组中，PackedSimd 版本全部驻留寄存器，**2.3×**。
+* **MatMul + ArgMax（CTC 头）**：原 `Vector<float>` 实现把乘加累加器放在 `stackalloc` 数组中，PackedSimd 版本的累加器驻留寄存器（每行的最大值 / 下标状态仍在栈上，每 8 列更新一次），**2.3×**。
 * Depthwise、Erf/GELU 等访存或分支受限的算子收益较小（约 1.0~1.15×）。
 
 ---
@@ -93,6 +93,7 @@ PackedSimd 内核与 `Vector<float>` 路径逐 lane 保持相同的运算顺序�
 | **ChineseV6Medium (medium)**| **383.5 MB** | **458.8 MB** | 远低于 2GB/4GB 寻址上限，无内存溢出风险 |
 
 ---
+
 ## 五、WebAssembly 运行要点与 Harness 实现
 
 ### 1. 多线程与跨域隔离 (COOP/COEP)
