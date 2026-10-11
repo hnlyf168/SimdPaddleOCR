@@ -260,6 +260,7 @@ loaded / peak 是六轮范围，Δ WS 是六轮（last − loaded）的均值。
 | 锐龙 AI 9 H365 / Radeon 880M 核显 | [vulkan-880m.md](vulkan-880m.md) |
 | 骁龙 8 Gen 3 / Adreno 750（安卓，无协作矩阵档） | [vulkan-8gen3.md](vulkan-8gen3.md) |
 | Intel UHD 770 核显（无协作矩阵，`Auto` 走 CPU） | [vulkan-uhd770.md](vulkan-uhd770.md) |
+| RK3399 / Mali-T860（OrangePi 4 LTS，Linux arm64，无 Vulkan，仅 CPU） | [rk3399.md](rk3399.md) |
 | Apple M1 / M4（Metal） | [metal-m4.md](metal-m4.md)、[perf-devin-m4.md](perf-devin-m4.md) |
 
 ## 数据来源与复现
