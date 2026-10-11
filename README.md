@@ -324,6 +324,6 @@ WebAssembly（`browser-wasm` 多线程 + LLVM AOT）下 tiny 中位 **103 ms/张
 
 ## 微信群
 
-![](https://io.starworks.cc:88/cv-public/2026/ocr-wxg-qr.png?1008)
+![](https://io.starworks.cc:88/cv-public/2026/ocr-wxg-qr.png?1011)
 
 如果微信群二维码过期了，请加入 QQ 群 [C#/.NET计算机视觉技术交流 579060605](https://qm.qq.com/q/bPw5jAK4qk)。
