@@ -272,6 +272,16 @@ ImageSharp 默认分配器会把像素拆成 4MB 块，大图上拿不到一整�
 | WebAssembly | 通过开发用宿主 `test/Sdcb.SimdPaddleOCR.WasmBench`（`net10.0` `browser-wasm` 多线程 Web Workers + SharedArrayBuffer）跑 CPU 推理，支持 tiny / small / medium，详见 [`docs/wasm.md`](docs/wasm.md) |
 | NativeAOT  | 裁剪发布时请保留核心程序集和所用模型程序集                                                                                  |
 
+## 特别感谢
+
+### AbcRed AI
+
+感谢 [AbcRed AI](https://ai.abc.red/) 对本项目的赞助支持。
+
+本项目中大量深度优化（SIMD 算子、GPU 后端、Vulkan / Metal shader 等）都是借助 Fable 5.1 / Opus 5.5 等当红旗舰模型强力推进完成的，AbcRed AI 提供的稳定、充足的模型额度，让这些高强度的优化迭代得以持续进行。
+
+👉 [点击注册 AbcRed AI](https://ai.abc.red/account/register?inviteCode=dvgkwx4w)
+
 ## 许可证与第三方组件
 
 本仓库中由本项目编写的源代码和文档采用 [Apache License 2.0](LICENSE) 发布。
