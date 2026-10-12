@@ -302,7 +302,7 @@ respective owners. This project is not official and does not imply endorsement.
 | Intel UHD 770 iGPU                | Vulkan (no coop matrix)     | Slower than CPU; `Auto` stays on CPU  |
 
 The CPU path is another **4–15%** faster across the board in 2.0 (parallel CTC ArgMax, dynamic intra-op thread budget, rewritten DET postprocess; plus a hand-written AdvSIMD MatMul on ARM64).
-Under WebAssembly (`browser-wasm`, multi-threaded + LLVM AOT), tiny runs at a **103 ms/image** median — about 2.3× the same machine's desktop native.
+Under WebAssembly (`browser-wasm`, multi-threaded + LLVM AOT + WASM SIMD128 `PackedSimd` kernels), tiny runs at a **113 ms/image** median on a Ryzen 7 5800X — about 2.5× the same machine's desktop native.
 
 Full benchmarks, accuracy tables, and reproduction commands per device: [`docs/perf.md`](docs/perf.md) and the per-machine reports under `docs/` (`vulkan-*.md`, `metal-m4.md`, `wasm.md`).
 
