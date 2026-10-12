@@ -2,6 +2,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 #if !NETSTANDARD2_0
 using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.Wasm;
 using System.Runtime.Intrinsics.X86;
 #endif
 
@@ -64,7 +65,7 @@ internal static unsafe partial class Nhwc
         else if (AdvSimd.Arm64.IsSupported)
             PointwiseAdvSimd(input, packedWeights, bias, output, pixels, inputChannels, outputChannels,
                 residual, activation, alpha, beta, threads);
-        else if (SimdKernels.PackedSimdEnabled)
+        else if (PackedSimd.IsSupported)
             PointwisePackedSimd(input, packedWeights, bias, output, pixels, inputChannels, outputChannels,
                 residual, activation, alpha, beta, threads);
         else
@@ -100,7 +101,7 @@ internal static unsafe partial class Nhwc
             DenseAdvSimd(input, packedWeights, bias, output, batch, inputChannels, height, width, outputChannels,
                 outputHeight, outputWidth, kernelH, kernelW, strideH, strideW, padTop, padLeft,
                 residual, activation, alpha, beta, threads);
-        else if (SimdKernels.PackedSimdEnabled)
+        else if (PackedSimd.IsSupported)
             DensePackedSimd(input, packedWeights, bias, output, batch, inputChannels, height, width, outputChannels,
                 outputHeight, outputWidth, kernelH, kernelW, strideH, strideW, padTop, padLeft,
                 residual, activation, alpha, beta, threads);
@@ -135,7 +136,7 @@ internal static unsafe partial class Nhwc
         else if (AdvSimd.Arm64.IsSupported)
             DepthwiseAdvSimd(input, packedWeights, bias, output, batch, channels, height, width, outputHeight, outputWidth,
                 kernelH, kernelW, strideH, strideW, padTop, padLeft, residual, activation, alpha, beta, threads);
-        else if (SimdKernels.PackedSimdEnabled)
+        else if (PackedSimd.IsSupported)
             DepthwisePackedSimd(input, packedWeights, bias, output, batch, channels, height, width, outputHeight, outputWidth,
                 kernelH, kernelW, strideH, strideW, padTop, padLeft, residual, activation, alpha, beta, threads);
         else
@@ -164,7 +165,7 @@ internal static unsafe partial class Nhwc
             ConvTranspose2x2Stride2Avx(input, packedWeights, bias, output, batch, inputChannels, height, width, outputChannels, activation, threads);
         else if (AdvSimd.Arm64.IsSupported)
             ConvTranspose2x2Stride2AdvSimd(input, packedWeights, bias, output, batch, inputChannels, height, width, outputChannels, activation, threads);
-        else if (SimdKernels.PackedSimdEnabled)
+        else if (PackedSimd.IsSupported)
             ConvTranspose2x2Stride2PackedSimd(input, packedWeights, bias, output, batch, inputChannels, height, width, outputChannels, activation, threads);
         else
 #endif

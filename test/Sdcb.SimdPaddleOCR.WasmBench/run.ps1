@@ -7,7 +7,7 @@ param(
     [switch]$Open,
     [switch]$NoBuild,
     [switch]$NoAot,
-    # Runtime environment variables, e.g. -Env PPOCR_DET_THREADS=4,PPOCR_PACKEDSIMD=0
+    # Runtime environment variables, e.g. -Env PPOCR_DET_THREADS=4,PPOCR_NHWC=0
     [string[]]$Env = @()
 )
 

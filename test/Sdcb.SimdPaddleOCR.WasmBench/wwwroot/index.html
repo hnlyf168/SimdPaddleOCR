@@ -328,7 +328,7 @@
                     .withDiagnosticTracing(false)
                     .withConsoleForwarding()
                     .withApplicationArguments(...cliArgs);
-                // ?env=KEY=VALUE (repeatable), e.g. PPOCR_DET_THREADS=4 or PPOCR_PACKEDSIMD=0.
+                // ?env=KEY=VALUE (repeatable), e.g. PPOCR_DET_THREADS=4.
                 for (const pair of params.getAll('env')) {
                     const eq = pair.indexOf('=');
                     if (eq <= 0) continue;

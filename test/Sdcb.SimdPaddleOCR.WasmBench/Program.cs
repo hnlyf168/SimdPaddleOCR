@@ -79,7 +79,7 @@ public static class Program
 
         Console.WriteLine($"[WASM] Config: model={modelType}, requested_workers={workers}, count={countLimit}, out={outPath}");
         Console.WriteLine($"[WASM] Environment.ProcessorCount: {Environment.ProcessorCount}");
-        Console.WriteLine($"[WASM] PackedSimd.IsSupported: {PackedSimd.IsSupported} (enabled: {Kernels.SimdKernels.PackedSimdEnabled}), PPOCR_DET_THREADS: {Environment.GetEnvironmentVariable("PPOCR_DET_THREADS") ?? "auto"}, Vector.IsHardwareAccelerated: {Vector.IsHardwareAccelerated}, Vector<float>.Count: {Vector<float>.Count}");
+        Console.WriteLine($"[WASM] PackedSimd.IsSupported: {PackedSimd.IsSupported}, PPOCR_DET_THREADS: {Environment.GetEnvironmentVariable("PPOCR_DET_THREADS") ?? "auto"}, Vector.IsHardwareAccelerated: {Vector.IsHardwareAccelerated}, Vector<float>.Count: {Vector<float>.Count}");
 
         PaddleOcrModelBundle bundle = modelType switch
         {
@@ -267,7 +267,7 @@ public static class Program
             ["vectorHardwareAccelerated"] = Vector.IsHardwareAccelerated,
             ["vectorCount"] = Vector<float>.Count,
             ["packedSimdSupported"] = PackedSimd.IsSupported,
-            ["effectiveIsa"] = Kernels.SimdKernels.PackedSimdEnabled ? "packedsimd" : Vector.IsHardwareAccelerated ? "vector128" : "scalar",
+            ["effectiveIsa"] = PackedSimd.IsSupported ? "packedsimd" : Vector.IsHardwareAccelerated ? "vector128" : "scalar",
             ["detThreads"] = Environment.GetEnvironmentVariable("PPOCR_DET_THREADS") ?? "auto",
             ["timestamp"] = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
             ["sampleCount"] = rows.Count(r => !r.Warmup),
