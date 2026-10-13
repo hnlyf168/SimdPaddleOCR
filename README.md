@@ -205,6 +205,8 @@ foreach (PaddleOcrLine line in result.Lines)
 
 ## 示例
 
+- 图片转双层 PDF：[`examples/SkiaSharp.SearchablePdf`](examples/SkiaSharp.SearchablePdf/README.md)，SkiaSharp 解码图片，按 OCR 逐字坐标生成可搜索、可复制的多页 PDF。
+
 四个示例共用 `examples/sample.jpg`，图片由示例负责解码为交错像素（BGR / RGB / BGRA / RGBA 均可）：
 
 - `examples/ImageSharp.AspNetCore`：ASP.NET Core + ImageSharp 3，可上传体验与 `POST /api/ocr` JSON API。
